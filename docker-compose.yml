@@ -1,0 +1,65 @@
+services:
+    mysql:
+        container_name: directorio_db
+        image: mysql:8.0.31
+        platform: linux/amd64
+        ports:
+            - 3306:3306
+        environment:
+            MYSQL_ROOT_PASSWORD: mysqlrootkey
+            MYSQL_DATABASE: db
+        volumes:
+            - mysql_data:/var/lib/mysql
+
+    phpmyadmin:
+        container_name: directorio_pma
+        image: phpmyadmin:5.2.0-apache
+        platform: linux/amd64
+        ports:
+            - 8080:80
+        environment:
+            PMA_HOST: mysql
+            PMA_PORT: 3306
+            PMA_USER: root
+            PMA_PASSWORD: mysqlrootkey
+            MEMORY_LIMIT: -1
+            UPLOAD_LIMIT: 4096M
+        depends_on:
+            - mysql
+
+    mailpit:
+        container_name: directorio_mail
+        image: axllent/mailpit:latest
+        platform: linux/amd64
+        ports:
+            - 8025:8025
+            - 1025:1025
+
+    laravel-app:
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile
+        container_name: directorio_app
+        volumes:
+            - .:/var/www/html
+        ports:
+            - 80:80
+        depends_on:
+            - mysql
+            - mailpit
+
+    node:
+        container_name: directorio_node
+        image: node:22-alpine
+        platform: linux/amd64
+        working_dir: /var/www/html
+        volumes:
+            - .:/var/www/html
+        ports:
+            - 5173:5173
+        command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+        depends_on:
+            - laravel-app
+
+volumes:
+    mysql_data:

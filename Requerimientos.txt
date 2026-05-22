@@ -1,0 +1,26 @@
+Este será un directorio comercial digital en donde se concentre la información de los negocios de Pamplona, Norte de Santander.
+
+Debe contar con un frontend sencillo en donde se muestren en cards la información básica de los negocios en cards.
+
+Para cada negocio se debe mostrar en el card: Una imagen, el nombre del negocio, la dirección, y un texto descriptivo. Cada card debe tener la opción ràpida para enviar whatsapp. Adicionalmente, al hacer click, se debe llevar a una
+vista detalle del negocio en donde se muestre la información completa que incluye los datos de contacto, una descripción mas completa, una galeria de imàgenes y la ubicación en
+el mapa usando la libreria openstreetmaps. Adicionalmente, botones con acciones automáticas para enviar mensajes de whatsapp, llamar o enviar correo electrónico.
+
+Para whatsapp se usará el redireccionamiento a whatsapp web, no tendré proveedores de terceros.
+
+El sistema estará construido en laravel 11 con un panel administrativo hecho con filament. Las vistas de usuario serán construidas en vuejs con inertia.
+Se usará base de datos mysql.
+
+Inicialmente se requiere un prototipo funcional tipo mvp.
+
+Sólo el usuario administrador podrá cargar información inicialmente, pero para la segunda fase, se prevee que sean los dueños de los negocios quienes administren su propia información.
+
+Los negocios estarán clasificados en categorías que serán administrables desde el panel filament.
+
+La vista inicial debe tener búsqueda por palabra clave y categoría.
+
+La interfaz gráfica debe ser atractiva usando vuetify, nada genérico. Debe contar con animaciones y transiciones.
+
+El ambiente local estará montado en docker en base al archivo docker-compose.yml. Se requiere que se agregue un contenedor para ejecutar las acciones con node js 22.
+
+sitio web de referencia: https://www.paginasamarillas.com.co
