@@ -154,7 +154,7 @@ class BusinessResource extends Resource
                         ->label('Imagen principal')
                         ->image()
                         ->directory('businesses/main')
-                        ->maxSize(2048)
+                        ->maxSize(15360)
                         ->columnSpanFull(),
 
                     FileUpload::make('gallery_images')
@@ -162,7 +162,7 @@ class BusinessResource extends Resource
                         ->image()
                         ->multiple()
                         ->directory('businesses/gallery')
-                        ->maxSize(2048)
+                        ->maxSize(15360)
                         ->reorderable()
                         ->columnSpanFull()
                         ->dehydrated(false)
