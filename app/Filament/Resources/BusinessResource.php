@@ -132,6 +132,18 @@ class BusinessResource extends Resource
                         ->maxLength(255)
                         ->columnSpanFull(),
 
+                    Toggle::make('has_location')
+                        ->label('Agregar ubicación')
+                        ->default(false)
+                        ->live()
+                        ->afterStateUpdated(function ($state, $set) {
+                            if (!$state) {
+                                $set('latitude', null);
+                                $set('longitude', null);
+                            }
+                        })
+                        ->columnSpanFull(),
+
                     Grid::make(2)->schema([
                         TextInput::make('latitude')
                             ->label('Latitud')
@@ -146,10 +158,11 @@ class BusinessResource extends Resource
                             ->step(0.00000001)
                             ->placeholder('-72.64930000')
                             ->autocomplete('off'),
-                    ]),
+                    ])->hidden(fn ($get) => !$get('has_location')),
 
                     View::make('filament.forms.map-picker')
-                        ->columnSpanFull(),
+                        ->columnSpanFull()
+                        ->hidden(fn ($get) => !$get('has_location')),
                 ]),
 
                 Tab::make('Imágenes')->schema([

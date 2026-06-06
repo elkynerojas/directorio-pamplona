@@ -18,6 +18,7 @@ class EditBusiness extends EditRecord
     protected function mutateFormDataBeforeFill(array $data): array
     {
         $data['gallery_images'] = $this->record->images()->pluck('path')->toArray();
+        $data['has_location'] = !empty($data['latitude']) || !empty($data['longitude']);
         return $data;
     }
 
