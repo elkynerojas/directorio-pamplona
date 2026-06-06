@@ -1,7 +1,11 @@
 <div
     x-data="{
-        selected: $wire.entangle('data.icon').live,
+        selected: '',
         search: '',
+        init() {
+            this.$wire.get('data.icon').then(val => { this.selected = val || ''; });
+            this.$watch('selected', val => this.$wire.set('data.icon', val));
+        },
         icons: [
             'store','shopping','cart','cart-outline','shopping-outline','tag','tag-outline','package','package-variant','package-variant-closed',
             'food','food-fork-drink','food-variant','food-apple','coffee','coffee-outline','pizza','cake','cake-variant','silverware-fork-knife','silverware','hamburger','cupcake','ice-cream','noodles','bread-slice','egg-fried',

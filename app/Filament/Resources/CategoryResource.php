@@ -54,6 +54,7 @@ class CategoryResource extends Resource
                 ->rows(3)
                 ->columnSpanFull(),
 
+            TextInput::make('icon')->hidden(),
             View::make('filament.forms.icon-picker'),
 
             ColorPicker::make('color')
