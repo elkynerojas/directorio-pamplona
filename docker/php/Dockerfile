@@ -34,6 +34,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Configurar nginx
 COPY docker/php/nginx.conf /etc/nginx/sites-available/default
+COPY docker/php/php.ini /usr/local/etc/php/conf.d/uploads.ini
 
 # Configurar supervisor
 COPY docker/php/supervisord.conf /etc/supervisor/conf.d/supervisord.conf

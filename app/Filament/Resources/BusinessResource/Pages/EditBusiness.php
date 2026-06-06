@@ -14,4 +14,19 @@ class EditBusiness extends EditRecord
     {
         return [DeleteAction::make()];
     }
+
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        $data['gallery_images'] = $this->record->images()->pluck('path')->toArray();
+        return $data;
+    }
+
+    protected function afterSave(): void
+    {
+        $paths = array_values($this->data['gallery_images'] ?? []);
+        $this->record->images()->delete();
+        foreach ($paths as $index => $path) {
+            $this->record->images()->create(['path' => $path, 'order' => $index]);
+        }
+    }
 }

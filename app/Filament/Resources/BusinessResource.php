@@ -136,13 +136,15 @@ class BusinessResource extends Resource
                             ->label('Latitud')
                             ->numeric()
                             ->step(0.00000001)
-                            ->placeholder('7.37560000'),
+                            ->placeholder('7.37560000')
+                            ->autocomplete('off'),
 
                         TextInput::make('longitude')
                             ->label('Longitud')
                             ->numeric()
                             ->step(0.00000001)
-                            ->placeholder('-72.64930000'),
+                            ->placeholder('-72.64930000')
+                            ->autocomplete('off'),
                     ]),
 
                     View::make('filament.forms.map-picker')
@@ -153,6 +155,7 @@ class BusinessResource extends Resource
                     FileUpload::make('main_image')
                         ->label('Imagen principal')
                         ->image()
+                        ->disk('public')
                         ->directory('businesses/main')
                         ->maxSize(15360)
                         ->columnSpanFull(),
@@ -161,19 +164,11 @@ class BusinessResource extends Resource
                         ->label('Galería de imágenes')
                         ->image()
                         ->multiple()
+                        ->disk('public')
                         ->directory('businesses/gallery')
                         ->maxSize(15360)
                         ->reorderable()
-                        ->columnSpanFull()
-                        ->dehydrated(false)
-                        ->afterStateUpdated(function ($state, $get, $set, $record) {
-                            if (!$record || !$state) {
-                                return;
-                            }
-                            foreach ((array) $state as $index => $path) {
-                                $record->images()->create(['path' => $path, 'order' => $index]);
-                            }
-                        }),
+                        ->columnSpanFull(),
                 ]),
 
                 Tab::make('Horario')->schema([

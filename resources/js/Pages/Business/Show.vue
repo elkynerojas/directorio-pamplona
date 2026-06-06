@@ -89,7 +89,7 @@
                     </v-card>
 
                     <!-- Mapa -->
-                    <v-card v-if="business.latitude && business.longitude" rounded="xl" elevation="1" class="mb-4">
+                    <v-card v-if="business.latitude != null && business.longitude != null" rounded="xl" elevation="1" class="mb-4">
                         <v-card-title class="text-h6 font-weight-bold pt-5 px-5" style="color: #C0252D;">
                             <v-icon icon="mdi-map" start color="secondary" />
                             Ubicación
