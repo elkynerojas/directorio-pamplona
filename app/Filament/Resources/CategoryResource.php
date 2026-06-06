@@ -9,6 +9,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\View;
 use Filament\Schemas\Schema;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -53,10 +54,7 @@ class CategoryResource extends Resource
                 ->rows(3)
                 ->columnSpanFull(),
 
-            TextInput::make('icon')
-                ->label('Ícono (Heroicon)')
-                ->placeholder('heroicon-o-building-storefront')
-                ->helperText('Nombre del ícono de Heroicons'),
+            View::make('filament.forms.icon-picker'),
 
             ColorPicker::make('color')
                 ->label('Color'),
@@ -85,7 +83,11 @@ class CategoryResource extends Resource
                     ->label('Color'),
 
                 TextColumn::make('icon')
-                    ->label('Ícono'),
+                    ->label('Ícono')
+                    ->html()
+                    ->formatStateUsing(fn ($state) => $state
+                        ? '<i class="mdi ' . e($state) . '" style="font-size:1.4rem;"></i>'
+                        : '—'),
 
                 TextColumn::make('businesses_count')
                     ->label('Negocios')
