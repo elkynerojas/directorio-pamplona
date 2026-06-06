@@ -14,7 +14,7 @@
                             <v-icon icon="mdi-map-marker-multiple" color="secondary" size="56" />
                         </div>
                         <h1 class="text-h3 text-h4-sm font-weight-bold text-white mb-3">
-                            Directorio Comercial<br>
+                            Directorio Digital<br>
                             <span style="color: #F9C300;">Pamplona</span>
                         </h1>
                         <p class="text-body-1 text-white opacity-80 mb-6">
