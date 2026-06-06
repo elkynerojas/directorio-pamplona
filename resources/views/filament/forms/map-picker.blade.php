@@ -30,6 +30,11 @@
                 this.lng = e.latlng.lng.toFixed(8);
                 this.placeMarker(e.latlng.lat, e.latlng.lng);
             });
+
+            const ro = new ResizeObserver(() => {
+                if (this.map) this.map.invalidateSize();
+            });
+            ro.observe(this.$refs.mapContainer);
         },
         placeMarker(lat, lng) {
             if (this.marker) {
