@@ -6,8 +6,8 @@ use App\Filament\Resources\BusinessResource\Pages;
 use App\Models\Business;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
@@ -80,9 +80,12 @@ class BusinessResource extends Resource
                         ->maxLength(255)
                         ->columnSpanFull(),
 
-                    Textarea::make('long_description')
+                    RichEditor::make('long_description')
                         ->label('Descripción completa')
-                        ->rows(6)
+                        ->columnSpanFull(),
+
+                    RichEditor::make('history')
+                        ->label('Historia del negocio (opcional)')
                         ->columnSpanFull(),
                 ]),
 

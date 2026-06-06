@@ -77,6 +77,7 @@ class BusinessController extends Controller
                 'slug' => $business->slug,
                 'short_description' => $business->short_description,
                 'long_description' => $business->long_description,
+                'history' => $business->history,
                 'address' => $business->address,
                 'whatsapp' => $business->whatsapp,
                 'whatsapp_url' => $business->whatsapp_url,

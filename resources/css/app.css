@@ -25,3 +25,14 @@ body {
 }
 
 html { scroll-behavior: smooth; }
+
+.rich-content p { margin-bottom: 0.75rem; line-height: 1.8; }
+.rich-content strong { font-weight: 600; }
+.rich-content em { font-style: italic; }
+.rich-content ul, .rich-content ol { padding-left: 1.5rem; margin-bottom: 0.75rem; }
+.rich-content ul { list-style-type: disc; }
+.rich-content ol { list-style-type: decimal; }
+.rich-content h2 { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem; }
+.rich-content h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; }
+.rich-content blockquote { border-left: 3px solid #F9C300; padding-left: 1rem; color: #666; margin: 0.75rem 0; }
+.rich-content a { color: #C0252D; text-decoration: underline; }

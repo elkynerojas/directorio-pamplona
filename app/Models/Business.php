@@ -17,7 +17,7 @@ class Business extends Model
         'category_id', 'name', 'slug', 'short_description', 'long_description',
         'address', 'whatsapp', 'phone', 'email', 'website',
         'instagram', 'facebook', 'tiktok', 'youtube',
-        'schedule', 'latitude', 'longitude', 'main_image',
+        'history', 'schedule', 'latitude', 'longitude', 'main_image',
         'is_active', 'is_featured',
     ];
 

@@ -54,9 +54,19 @@
                             Acerca del negocio
                         </v-card-title>
                         <v-card-text class="px-5 pb-5">
-                            <p class="text-body-1" style="line-height: 1.8; white-space: pre-line;">
-                                {{ business.long_description || business.short_description }}
-                            </p>
+                            <div class="rich-content text-body-1"
+                                 v-html="business.long_description || business.short_description">
+                            </div>
+                        </v-card-text>
+                    </v-card>
+
+                    <!-- Historia -->
+                    <v-card v-if="business.history" rounded="xl" elevation="1" class="mb-4">
+                        <v-card-title class="text-h6 font-weight-bold pt-5 px-5" style="color: #C0252D;">
+                            Historia
+                        </v-card-title>
+                        <v-card-text class="px-5 pb-5">
+                            <div class="rich-content text-body-1" v-html="business.history"></div>
                         </v-card-text>
                     </v-card>
 
