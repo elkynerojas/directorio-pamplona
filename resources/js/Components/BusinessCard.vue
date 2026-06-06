@@ -25,10 +25,9 @@
             </v-img>
 
             <v-chip
-                :color="business.category?.color || 'primary'"
                 size="small"
                 class="position-absolute"
-                style="top: 10px; left: 10px; font-weight: 600;"
+                :style="`top: 10px; left: 10px; font-weight: 600; background: white; color: ${business.category?.color || '#C0252D'}; border: 1px solid ${business.category?.color || '#C0252D'};`"
                 elevation="2"
             >
                 {{ business.category?.name }}
