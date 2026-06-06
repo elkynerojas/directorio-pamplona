@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class Business extends Model
@@ -34,6 +35,16 @@ class Business extends Model
             if (empty($business->slug)) {
                 $business->slug = Str::slug($business->name);
             }
+        });
+
+        static::deleting(function (Business $business) {
+            if ($business->main_image) {
+                Storage::disk('public')->delete($business->main_image);
+            }
+            foreach ($business->images as $image) {
+                Storage::disk('public')->delete($image->path);
+            }
+            $business->images()->delete();
         });
     }
 
