@@ -25,32 +25,12 @@ class BusinessController extends Controller
             });
         }
 
-        if ($request->filled('category_id')) {
-            $query->where('category_id', $request->input('category_id'));
-        }
-
         $businesses = $query
             ->orderByDesc('is_featured')
             ->orderBy('name')
             ->paginate(12)
             ->withQueryString()
-            ->through(fn ($b) => [
-                'id' => $b->id,
-                'name' => $b->name,
-                'slug' => $b->slug,
-                'short_description' => $b->short_description,
-                'address' => $b->address,
-                'whatsapp' => $b->whatsapp,
-                'whatsapp_url' => $b->whatsapp_url,
-                'main_image_url' => $b->main_image_url,
-                'is_featured' => $b->is_featured,
-                'category' => $b->category ? [
-                    'id' => $b->category->id,
-                    'name' => $b->category->name,
-                    'icon' => $b->category->icon,
-                    'color' => $b->category->color,
-                ] : null,
-            ]);
+            ->through(fn ($b) => $this->formatBusiness($b));
 
         $categories = Category::where('is_active', true)
             ->orderBy('order')
@@ -59,7 +39,51 @@ class BusinessController extends Controller
         return Inertia::render('Index', [
             'businesses' => $businesses,
             'categories' => $categories,
-            'filters' => $request->only(['search', 'category_id']),
+            'filters' => $request->only(['search']),
+            'current_category' => null,
+        ]);
+    }
+
+    public function byCategory(string $slug, Request $request): Response
+    {
+        $category = Category::where('slug', $slug)
+            ->where('is_active', true)
+            ->firstOrFail();
+
+        $query = Business::query()
+            ->with('category')
+            ->where('is_active', true)
+            ->where('category_id', $category->id);
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('short_description', 'like', "%{$search}%")
+                  ->orWhere('address', 'like', "%{$search}%");
+            });
+        }
+
+        $businesses = $query
+            ->orderByDesc('is_featured')
+            ->orderBy('name')
+            ->paginate(12)
+            ->withQueryString()
+            ->through(fn ($b) => $this->formatBusiness($b));
+
+        $categories = Category::where('is_active', true)
+            ->orderBy('order')
+            ->get(['id', 'name', 'slug', 'icon', 'color']);
+
+        return Inertia::render('Index', [
+            'businesses' => $businesses,
+            'categories' => $categories,
+            'filters' => $request->only(['search']),
+            'current_category' => [
+                'id' => $category->id,
+                'name' => $category->name,
+                'slug' => $category->slug,
+            ],
         ]);
     }
 
@@ -106,5 +130,26 @@ class BusinessController extends Controller
                 ]),
             ],
         ]);
+    }
+
+    private function formatBusiness(Business $b): array
+    {
+        return [
+            'id' => $b->id,
+            'name' => $b->name,
+            'slug' => $b->slug,
+            'short_description' => $b->short_description,
+            'address' => $b->address,
+            'whatsapp' => $b->whatsapp,
+            'whatsapp_url' => $b->whatsapp_url,
+            'main_image_url' => $b->main_image_url,
+            'is_featured' => $b->is_featured,
+            'category' => $b->category ? [
+                'id' => $b->category->id,
+                'name' => $b->category->name,
+                'icon' => $b->category->icon,
+                'color' => $b->category->color,
+            ] : null,
+        ];
     }
 }

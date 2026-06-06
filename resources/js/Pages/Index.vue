@@ -67,7 +67,7 @@
                                 :color="selectedCategory === cat.id ? 'primary' : 'default'"
                                 size="large"
                                 class="px-5"
-                                @click="selectCategory(cat.id)"
+                                @click="selectCategory(cat)"
                                 style="cursor: pointer; font-weight: 500; letter-spacing: 0.01em;"
                             >
                                 <v-icon v-if="cat.icon" :icon="cat.icon" start size="16" />
@@ -139,10 +139,11 @@ const props = defineProps({
     businesses: Object,
     categories: Array,
     filters: Object,
+    current_category: { type: Object, default: null },
 });
 
 const search = ref(props.filters?.search || '');
-const selectedCategory = ref(props.filters?.category_id ? Number(props.filters.category_id) : null);
+const selectedCategory = ref(props.current_category?.id ?? null);
 const currentPage = ref(props.businesses?.current_page || 1);
 const visibleCards = ref([]);
 
@@ -151,19 +152,29 @@ const filteredCount = computed(() => props.businesses?.total || 0);
 function buildParams() {
     const params = {};
     if (search.value) params.search = search.value;
-    if (selectedCategory.value) params.category_id = selectedCategory.value;
     return params;
+}
+
+function baseUrl() {
+    return props.current_category
+        ? route('categories.show', props.current_category.slug)
+        : route('home');
 }
 
 const onSearch = useDebounceFn(() => {
     currentPage.value = 1;
-    router.get(route('home'), buildParams(), { preserveState: true, replace: true });
+    router.get(baseUrl(), buildParams(), { preserveState: true, replace: true });
 }, 350);
 
-function selectCategory(id) {
-    selectedCategory.value = id;
+function selectCategory(cat) {
     currentPage.value = 1;
-    router.get(route('home'), buildParams(), { preserveState: true, replace: true });
+    if (cat === null) {
+        selectedCategory.value = null;
+        router.get(route('home'), buildParams(), { preserveState: true, replace: true });
+    } else {
+        selectedCategory.value = cat.id;
+        router.get(route('categories.show', cat.slug), buildParams(), { preserveState: true, replace: true });
+    }
 }
 
 function clearFilters() {
@@ -174,7 +185,7 @@ function clearFilters() {
 }
 
 function goToPage(page) {
-    router.get(route('home'), { ...buildParams(), page }, { preserveState: true });
+    router.get(baseUrl(), { ...buildParams(), page }, { preserveState: true });
 }
 
 onMounted(() => {
