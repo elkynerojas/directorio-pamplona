@@ -11,6 +11,7 @@ use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Navigation\NavigationItem;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
@@ -37,6 +38,13 @@ class AdminPanelProvider extends PanelProvider
             ->favicon(null)
             ->assets([
                 Css::make('mdi', asset('vendor/mdi/css/materialdesignicons.min.css')),
+            ])
+            ->navigationItems([
+                NavigationItem::make('Ir al sitio')
+                    ->url('/')
+                    ->icon('heroicon-o-arrow-top-right-on-square')
+                    ->openUrlInNewTab()
+                    ->sort(999),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
